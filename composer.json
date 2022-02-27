@@ -1,0 +1,9 @@
+{
+    "name": "timi/gascosa",
+    "description": "Simple voting portal written using the MVC frame work",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    }
+}
