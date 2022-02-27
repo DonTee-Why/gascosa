@@ -1,6 +1,8 @@
 <?php
 namespace App\Models;
 
+use App\Database\DBConnection;
+
 class Voter{
     private $conn;
     private $table = 'voters';
@@ -11,8 +13,9 @@ class Voter{
     public $status;
     public $date;
 
-    public function __construct($conn){
-        $this->conn;
+    public function __construct(){
+        $db = DBConnection::getInstance();
+        $this->conn = $db->getConnection();
     }
 
     public function find($email)
@@ -30,7 +33,8 @@ class Voter{
         $stmt->bindParam(':id_number', $email);
 
         $stmt->execute();
-        $result = $stmt->get_result()->fetch_assoc();
+
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
 
         return $result;
     }
