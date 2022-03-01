@@ -8,7 +8,7 @@ use Symfony\Component\Routing\RouteCollection;
 $routes = new RouteCollection();
 
 $index = new Route(URL_SUBFOLODER . '/', ['controller' => 'SignInController', 'method'=>'index']);
-$login = new Route(URL_SUBFOLODER . '/login', ['controller' => 'SignInController', 'method'=>'login']);
+$login = new Route(URL_SUBFOLODER . '/login', ['controller' => 'SignInController', 'method'=>'index']);
 $signIn = new Route(URL_SUBFOLODER . '/signIn', ['controller' => 'SignInController', 'method'=>'signIn'], [], [], '', [], ['POST']);
 
 $vote = new Route(URL_SUBFOLODER . '/vote', ['controller' => 'VoteController', 'method'=>'index']);

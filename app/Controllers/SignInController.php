@@ -23,12 +23,6 @@ class SignInController
         require_once APP_ROOT . '/views/index.php';
     }
 
-    // Show the login page
-    public function login(RouteCollection $routes)
-    {
-        require_once APP_ROOT . '/views/index.php';
-    }
-
     // Carry out the voting action
     public function signIn(RouteCollection $routes)
     {
