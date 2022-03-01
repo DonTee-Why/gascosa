@@ -29,14 +29,19 @@ class Voter{
 
         $stmt = $this->conn->prepare($query);
 
-        $email = $this->clean_data($email);
-        $stmt->bindParam(':id_number', $email);
+        $email = filter_var($this->clean_data($email), FILTER_SANITIZE_EMAIL);;
+        $stmt->bindParam(':email', $email);
 
-        $stmt->execute();
+        $execute = $stmt->execute();
 
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        $this->id = $result['id'];
+        $this->name = $result['name'];
+        $this->email = $result['email'];
+        $this->status = $result['status'];
+        $this->date = $result['date'];
 
-        return $result;
+        return $execute;
     }
 
     // Clean data function
