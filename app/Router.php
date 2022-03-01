@@ -41,6 +41,7 @@ class Router
             
         } catch (MethodNotAllowedException $e) {
             echo 'Route method is not allowed.';
+            header('location: /gascosa/');
         } catch (ResourceNotFoundException $e) {
             echo 'Route does not exists.';
         } catch (NoConfigurationException $e) {

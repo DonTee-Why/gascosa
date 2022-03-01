@@ -11,7 +11,7 @@ class SignInController
 {
     private $session;
 
-    // Show the voting page if user is logged in
+    // Show the login page
     public function index(RouteCollection $routes)
     {
         $this->session = new Session();
@@ -23,10 +23,14 @@ class SignInController
         require_once APP_ROOT . '/views/index.php';
     }
 
-    // Carry out the voting action
+    // Carry out the login action
     public function signIn(RouteCollection $routes)
     {
         $request = Request::createFromGlobals();
+        if ($request->getMethod() != 'POST') {
+            header('location: /gascosa/');
+        }
+        
         $email = $request->get('email');
 
         $voter  = new Voter();
@@ -34,7 +38,7 @@ class SignInController
 
         if ($voter->find($email)) {
             $this->session = new Session();
-            $this->session->set('loggedIn', $email);
+            $this->session->set('loggedIn', $voter->id);
             header('location: /gascosa/vote');
         }
     }

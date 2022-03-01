@@ -13,6 +13,16 @@ main{
     margin: auto;
 }
 
-img, svg{
+svg{
     vertical-align: middle;
+}
+
+.img{
+    height: 150px;
+    max-width: 100%;
+    min-height: 150px;
+}
+
+.form-check:first-child{
+    margin-bottom: 0.5rem !important;
 }

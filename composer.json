@@ -8,6 +8,9 @@
     },
     "require": {
         "symfony/routing": "^5.4",
-        "symfony/http-foundation": "^5.4"
+        "symfony/http-foundation": "^5.4",
+        "symfony/string": "^5.4",
+        "symfony/translation-contracts": "^2.5",
+        "symfony/mime": "^5.4"
     }
 }

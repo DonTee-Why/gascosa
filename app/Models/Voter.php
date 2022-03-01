@@ -11,7 +11,7 @@ class Voter{
     public $name;
     public $email;
     public $status;
-    public $date;
+    public $pic;
 
     public function __construct(){
         $db = DBConnection::getInstance();
@@ -23,13 +23,14 @@ class Voter{
         
         // SQL query
         $query = 'SELECT * FROM ' . $this->table . '
+
             WHERE
             email = :email
         ';
 
         $stmt = $this->conn->prepare($query);
 
-        $email = filter_var($this->clean_data($email), FILTER_SANITIZE_EMAIL);;
+        $email = filter_var($this->clean_data($email), FILTER_SANITIZE_EMAIL);
         $stmt->bindParam(':email', $email);
 
         $execute = $stmt->execute();
@@ -39,7 +40,35 @@ class Voter{
         $this->name = $result['name'];
         $this->email = $result['email'];
         $this->status = $result['status'];
-        $this->date = $result['date'];
+
+        return $execute;
+    }
+
+    public function update($id, $pic)
+    {
+        
+        // SQL query
+        $query = 'UPDATE ' . $this->table . '
+            SET pic = :pic
+            WHERE id = :id
+        ';
+
+        $stmt = $this->conn->prepare($query);
+
+        $id = $this->clean_data($id);
+        $pic = $this->clean_data($pic);
+
+        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':pic', $pic);
+
+        $execute = $stmt->execute();
+
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        $this->id = $result['id'];
+        $this->name = $result['name'];
+        $this->email = $result['email'];
+        $this->pic = $result['pic'];
+        $this->status = $result['status'];
 
         return $execute;
     }
