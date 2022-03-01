@@ -6,10 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GASCOSA Elections | Vote</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" href="assets/css/site.css">
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/site.js"></script>
+    <link rel="stylesheet" href="public/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="public/css/site.css">
+    <script src="public/js/jquery.min.js"></script>
+    <script src="public/js/site.js"></script>
 </head>
 
 <body class="">
@@ -25,7 +25,7 @@
                     <div class="card">
                         <div class="card-header">Please upload your picture</div>
                         <div class="card-body">
-                            <img src="assets/images/person.svg" class="img-fluid w-75" id="prevImgpic" alt="Image Placeholder" />
+                            <img src="public/images/person.svg" class="img-fluid w-75" id="prevImgpic" alt="Image Placeholder" />
                             <input asp-for="Picture" class="form-control mt-3" type="file" id="pic" onchange="ShowImgPreview(this)">
                         </div>
                     </div>
