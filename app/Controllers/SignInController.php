@@ -19,7 +19,7 @@ class SignInController
         if (!is_null($loggedIn)) {
             header('location: /gascosa/vote');
         }
-        
+
         require_once APP_ROOT . '/views/index.php';
     }
 
@@ -30,7 +30,7 @@ class SignInController
         if ($request->getMethod() != 'POST') {
             header('location: /gascosa/');
         }
-        
+
         $email = $request->get('email');
 
         $voter  = new Voter();
@@ -39,7 +39,16 @@ class SignInController
         if ($voter->find($email)) {
             $this->session = new Session();
             $this->session->set('loggedIn', $voter->id);
+            $this->session->set('email', $voter->email);
             header('location: /gascosa/vote');
         }
+    }
+
+    // Logout action
+    public function logout(RouteCollection $routes)
+    {
+        $this->session = new Session();
+        $this->session->clear();
+        header('location: /gascosa/');
     }
 }
