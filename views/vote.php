@@ -8,7 +8,7 @@
     <title>GASKIYA Elections | Vote</title>
     <link rel="stylesheet" href="public/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="public/css/site.css">
-    <script src="public/js/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="public/js/site.js"></script>
     <script src="public/bootstrap/bootstrap.min.js"></script>
 </head>
