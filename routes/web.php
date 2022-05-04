@@ -7,6 +7,8 @@ use Symfony\Component\Routing\RouteCollection;
 // Routes system
 $routes = new RouteCollection();
 
+$install = new Route(URL_SUBFOLDER . '/install', ['controller' => 'DBController', 'method' => 'index']);
+
 $index = new Route(URL_SUBFOLDER . '/', ['controller' => 'SignInController', 'method' => 'index']);
 $login = new Route(URL_SUBFOLDER . '/login', ['controller' => 'SignInController', 'method' => 'index']);
 $signIn = new Route(URL_SUBFOLDER . '/signIn', ['controller' => 'SignInController', 'method' => 'signIn'], [], [], '', [], ['POST']);
