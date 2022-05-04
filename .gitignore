@@ -3,3 +3,4 @@
 .htaccess
 uploads/
 composer.lock
+jquery.min.js
