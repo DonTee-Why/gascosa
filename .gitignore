@@ -2,3 +2,4 @@
 .env
 .htaccess
 uploads/
+composer.lock
