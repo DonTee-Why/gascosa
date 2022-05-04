@@ -5,11 +5,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GASCOSA Elections | Vote</title>
+    <title>GASKIYA Elections | Vote</title>
     <link rel="stylesheet" href="public/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="public/css/site.css">
     <script src="public/js/jquery.min.js"></script>
     <script src="public/js/site.js"></script>
+    <script src="public/bootstrap/bootstrap.min.js"></script>
 </head>
 
 <body class="">
@@ -19,15 +20,14 @@
     <main class="h-100 container py-4">
         <h3>Vote for your preferred candidates</h3>
         <hr>
-        <form enctype="multipart/form-data" action="<?php echo $routes->get('voteAction')->getPath(); ?>" method="POST">
+        <form action="<?php echo $routes->get('voteAction')->getPath(); ?>" method="POST" enctype="multipart/form-data">
             <div class="row g-3 mt-2 justify-content-around">
                 <div class="col-12 col-md-4">
                     <div class="card">
                         <div class="card-header">Please upload your picture</div>
                         <div class="card-body">
-                            <input type="hidden" name="MAX_FILE_SIZE" value="30000" />
                             <img src="public/images/person.svg" class="w-75 img" id="prevImgpic" alt="Image Placeholder" />
-                            <input class="form-control mt-3" type="file" accept="image/*" name="pic" id="pic" onchange="ShowImgPreview(this)">
+                            <input class="form-control mt-3" type="file" accept="image/*" name="pic" id="pic" onchange="ShowImgPreview(this)" required>
                         </div>
                     </div>
                 </div>
@@ -39,7 +39,7 @@
                             foreach ($president as &$candidate) {
                             ?>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="presidentialRadio" id="<?php echo 'presidentialRadio' . $candidate['id']; ?>" value="<?php echo $candidate['id']; ?>">
+                                    <input class="form-check-input" type="radio" name="presidentialRadio" id="<?php echo 'presidentialRadio' . $candidate['id']; ?>" value="<?php echo $candidate['id']; ?>" required>
                                     <label class="form-check-label" for="<?php echo 'presidentialRadio' . $candidate['id']; ?>">
                                         <?php echo $candidate['name']; ?>
                                     </label>
@@ -58,7 +58,7 @@
                             foreach ($vicePresident as &$candidate) {
                             ?>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="vicePresRadio" id="<?php echo 'vicePresRadio' . $candidate['id']; ?>" value="<?php echo $candidate['id']; ?>">
+                                    <input class="form-check-input" type="radio" required name="vicePresRadio" id="<?php echo 'vicePresRadio' . $candidate['id']; ?>" value="<?php echo $candidate['id']; ?>" required>
                                     <label class="form-check-label" for="<?php echo 'vicePresRadio' . $candidate['id']; ?>">
                                         <?php echo $candidate['name']; ?>
                                     </label>
@@ -77,7 +77,7 @@
                             foreach ($genSec as &$candidate) {
                             ?>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="genSecRadio" id="<?php echo 'genSecRadio' . $candidate['id'] ?>" value="<?php echo $candidate['id']; ?>">
+                                    <input class="form-check-input" type="radio" required name="genSecRadio" id="<?php echo 'genSecRadio' . $candidate['id'] ?>" value="<?php echo $candidate['id']; ?>" required>
                                     <label class="form-check-label" for="<?php echo 'genSecRadio' . $candidate['id'] ?>">
                                         <?php echo $candidate['name']; ?>
                                     </label>
@@ -96,7 +96,7 @@
                             foreach ($asstGenSec as &$candidate) {
                             ?>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="asstGenSecRadio" id="<?php echo 'asstGenSecRadio' . $candidate['id'] ?>" value="<?php echo $candidate['id']; ?>">
+                                    <input class="form-check-input" type="radio" required name="asstGenSecRadio" id="<?php echo 'asstGenSecRadio' . $candidate['id'] ?>" value="<?php echo $candidate['id']; ?>" required>
                                     <label class="form-check-label" for="<?php echo 'asstGenSecRadio' . $candidate['id'] ?>">
                                         <?php echo $candidate['name']; ?>
                                     </label>
@@ -115,7 +115,7 @@
                             foreach ($treasurer as &$candidate) {
                             ?>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="treasurerRadio" id="<?php echo 'treasurerRadio' . $candidate['id'] ?>" value="<?php echo $candidate['id']; ?>">
+                                    <input class="form-check-input" type="radio" required="true" name="treasurerRadio" id="<?php echo 'treasurerRadio' . $candidate['id'] ?>" value="<?php echo $candidate['id']; ?>" required>
                                     <label class="form-check-label" for="<?php echo 'treasurerRadio' . $candidate['id'] ?>">
                                         <?php echo $candidate['name'] ?>
                                     </label>
@@ -134,7 +134,7 @@
                             foreach ($finSec as &$candidate) {
                             ?>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="finSecRadio" id="<?php echo 'finSecRadio' . $candidate['id']; ?>" value="<?php echo $candidate['id']; ?>">
+                                    <input class="form-check-input" type="radio" name="finSecRadio" id="<?php echo 'finSecRadio' . $candidate['id']; ?>" value="<?php echo $candidate['id']; ?>" required>
                                     <label class="form-check-label" for="<?php echo 'finSecRadio' . $candidate['id']; ?>">
                                         <?php echo $candidate['name']; ?>
                                     </label>
@@ -153,7 +153,7 @@
                             foreach ($auditor as &$candidate) {
                             ?>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="auditorRadio" id="<?php echo 'auditorRadio' . $candidate['id']; ?>" value="<?php echo $candidate['id']; ?>">
+                                    <input class="form-check-input" type="radio" name="auditorRadio" id="<?php echo 'auditorRadio' . $candidate['id']; ?>" value="<?php echo $candidate['id']; ?>" required>
                                     <label class="form-check-label" for="<?php echo 'auditorRadio' . $candidate['id']; ?>">
                                         <?php echo $candidate['name']; ?>
                                     </label>
@@ -172,7 +172,7 @@
                             foreach ($sosSec as &$candidate) {
                             ?>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="socialSecRadio" id="<?php echo 'socialSecRadio' . $candidate['id']; ?>" value="<?php echo $candidate['id']; ?>">
+                                    <input class="form-check-input" type="radio" name="socialSecRadio" id="<?php echo 'socialSecRadio' . $candidate['id']; ?>" value="<?php echo $candidate['id']; ?>" required>
                                     <label class="form-check-label" for="<?php echo 'socialSecRadio' . $candidate['id']; ?>">
                                         <?php echo $candidate['name']; ?>
                                     </label>
@@ -191,7 +191,7 @@
                             foreach ($medPubSec as &$candidate) {
                             ?>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="medPubSecRadio" id="<?php echo 'medPubSecRadio' . $candidate['id']; ?>" value="<?php echo $candidate['id']; ?>">
+                                    <input class="form-check-input" type="radio" name="medPubSecRadio" id="<?php echo 'medPubSecRadio' . $candidate['id']; ?>" value="<?php echo $candidate['id']; ?>" required>
                                     <label class="form-check-label" for="<?php echo 'medPubSecRadio' . $candidate['id']; ?>">
                                         <?php echo $candidate['name']; ?>
                                     </label>
@@ -209,7 +209,7 @@
         </form>
     </main>
     <footer class="mt-4 p-3 bg-secondary text-light">
-        <p class="m-0">&copy; GASCOSA 2022</p>
+        <p class="m-0">&copy; GASKIYA 2022</p>
     </footer>
 </body>
 

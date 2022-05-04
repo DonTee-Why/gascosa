@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App;
 
@@ -19,30 +19,34 @@ class Router
 
         // Routing can match routes with incoming requests
         $matcher = new UrlMatcher($routes, $context);
+        $uri = $_SERVER['REQUEST_URI'];
         try {
-            $matcher = $matcher->match($_SERVER['REQUEST_URI']);
-    
+            $signPosition = strpos($uri, '?');
+
+            if ($signPosition == !false) {
+                $uri = substr($uri, 0, $signPosition);
+            }
+            $matcher = $matcher->match($uri);
+
             // Cast params to int if numeric
-            array_walk($matcher, function(&$param)
-            {
-                if(is_numeric($param)) 
-                {
+            array_walk($matcher, function (&$param) {
+                if (is_numeric($param)) {
                     $param = (int) $param;
                 }
             });
-    
+
             $className = '\\App\\Controllers\\' . $matcher['controller'];
             $classInstance = new $className();
-    
+
             // Add routes as paramaters to the next class
             $params = array_merge(array_slice($matcher, 2, -1), array('routes' => $routes));
 
             call_user_func_array(array($classInstance, $matcher['method']), $params);
-            
         } catch (MethodNotAllowedException $e) {
             echo 'Route method is not allowed.';
-            header('location: /gascosa/');
+            header('location: /' . URL_SUBFOLDER);
         } catch (ResourceNotFoundException $e) {
+            header('location: /' . URL_SUBFOLDER);
             echo 'Route does not exists.';
         } catch (NoConfigurationException $e) {
             echo 'Configuration does not exists.';

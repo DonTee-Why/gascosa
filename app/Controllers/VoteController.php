@@ -22,8 +22,14 @@ class VoteController
         $this->session = new Session();
         $loggedIn = $this->session->get('loggedIn', null);
         if (is_null($loggedIn)) {
-            header('location: /gascosa/');
+            header('location: /' . URL_SUBFOLDER);
         } else {
+            $email = $this->session->get('email', null);
+            $voter = new Voter();
+            $voter->find($email);
+            if ($voter->status > 0) {
+                header('location: /' . URL_SUBFOLDER . '/results');
+            }
             $president = Candidate::find('Presidential');
             $vicePresident = Candidate::find('Vice President');
             $genSec = Candidate::find('General Secretary');
@@ -42,7 +48,7 @@ class VoteController
     {
         $request = Request::createFromGlobals();
         if ($request->getMethod() != 'POST') {
-            header('location: /gascosa/');
+            header('location: /' . URL_SUBFOLDER);
         }
 
         // Get voter_id from session
@@ -76,12 +82,41 @@ class VoteController
 
         $vote = Vote::create([
             'voters_id' => $voter_id,
-            'candidates' => $candidates
+            'candidates' => $candidates,
+            'date_created' => $date_created
         ]);
 
-        if (!is_null($vote)) {
+        if (!$vote) {
+            header('location: /' . URL_SUBFOLDER . '/vote');
+        }
+        // Update voter's status
+        $voter = new Voter();
+        $result = $voter->update($voter_id, $pic);
+        if (!$result) {
             return;
         }
-        header('location: /gascosa/vote');
+        header('location: /' . URL_SUBFOLDER . '/results');
+    }
+
+    public function results(RouteCollection $routes)
+    {
+        $this->session = new Session();
+        $loggedIn = $this->session->get('loggedIn', null);
+        if (is_null($loggedIn)) {
+            header('location: /' . URL_SUBFOLDER);
+        } else {
+            $pres_votes = Vote::getPresidentialVotes();
+            $vicePress_votes = Vote::getVicePresVote();
+            $genSec_votes = Vote::getGenSecVote();
+            $asstGenSec_vote = Vote::getAssGenSecVote();
+            $treasurer_vote = Vote::getTreasurerVote();
+            $finSec_vote = Vote::getFinSecVote();
+            $auditor_vote = Vote::getAuditorVote();
+            $sosSec_vote = Vote::getSocSecVote();
+            $medPubSec_vote = Vote::getMedPubSecVote();
+            $voter = new Voter();
+            $voters = $voter->getAll();
+            require_once APP_ROOT . '/views/results.php';
+        }
     }
 }

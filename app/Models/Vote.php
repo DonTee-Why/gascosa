@@ -1,9 +1,11 @@
 <?php
+
 namespace App\Models;
 
 use App\Database\DBConnection;
 
-class Vote{
+class Vote
+{
     private static $conn;
     private static $table = 'votes';
 
@@ -20,7 +22,8 @@ class Vote{
     private static $med_pub_candidate_id;
     private static $date_created;
 
-    public function __construct(){
+    public function __construct()
+    {
         $db = DBConnection::getInstance();
         self::$conn = $db->getConnection();
     }
@@ -29,7 +32,7 @@ class Vote{
     {
         $db = DBConnection::getInstance();
         self::$conn = $db->getConnection();
-        
+
         // SQL query
         $query = 'INSERT INTO ' . self::$table . '
             (voter_id, pres_candidate_id, vice_pres_candidate_id, gen_sec_candidate_id, asst_gen_sec_candidate_id, treasurer_candidate_id, fin_sec_candidate_id, auditor_candidate_id, soc_sec_candidate_id, med_pub_candidate_id, date_created)
@@ -39,7 +42,7 @@ class Vote{
 
         $stmt = self::$conn->prepare($query);
 
-        self::$voter_id = self::clean_data($fields['voter_id']);
+        self::$voter_id = self::clean_data($fields['voters_id']);
         self::$pres_candidate_id = self::clean_data($fields['candidates']['pres_candidate_id']);
         self::$vice_pres_candidate_id = self::clean_data($fields['candidates']['vice_pres_candidate_id']);
         self::$gen_sec_candidate_id = self::clean_data($fields['candidates']['gen_sec_candidate_id']);
@@ -65,22 +68,219 @@ class Vote{
 
         $execute = $stmt->execute();
 
-        $result = $stmt->fetchAll();
-
-        if ($execute) {
-            return $result;
-        }else{
-            return $execute;
-        }
+        return $execute;
     }
 
-    private static function update($email)
+    public static function getPresidentialVotes()
     {
-        # code...
+        $db = DBConnection::getInstance();
+        self::$conn = $db->getConnection();
+
+        $query = 'SELECT candidates.name, COUNT(votes.pres_candidate_id) as vote_count
+            FROM ' . self::$table . '
+            RIGHT JOIN candidates ON votes.pres_candidate_id = candidates.id
+            WHERE candidates.position = "Presidential"
+            GROUP BY name
+            ORDER BY COUNT(votes.pres_candidate_id) DESC
+        ';
+
+        $stmt = self::$conn->prepare($query);
+        $execute = $stmt->execute();
+
+        if (!$execute) {
+            return $execute;
+        }
+        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public static function getVicePresVote()
+    {
+        $db = DBConnection::getInstance();
+        self::$conn = $db->getConnection();
+
+        $query = 'SELECT candidates.name, COUNT(votes.vice_pres_candidate_id) as vote_count
+            FROM ' . self::$table . '
+            RIGHT JOIN candidates ON votes.vice_pres_candidate_id = candidates.id
+            WHERE candidates.position = "Vice President"
+            GROUP BY name
+            ORDER BY COUNT(votes.vice_pres_candidate_id) DESC
+        ';
+
+        $stmt = self::$conn->prepare($query);
+        $execute = $stmt->execute();
+
+        if (!$execute) {
+            return $execute;
+        }
+        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public static function getGenSecVote()
+    {
+        $db = DBConnection::getInstance();
+        self::$conn = $db->getConnection();
+
+        $query = 'SELECT candidates.name, COUNT(votes.gen_sec_candidate_id) as vote_count
+            FROM ' . self::$table . '
+            RIGHT JOIN candidates ON votes.gen_sec_candidate_id = candidates.id
+            WHERE candidates.position = "General Secretary"
+            GROUP BY name
+            ORDER BY COUNT(votes.gen_sec_candidate_id ) DESC
+        ';
+
+        $stmt = self::$conn->prepare($query);
+        $execute = $stmt->execute();
+
+        if (!$execute) {
+            return $execute;
+        }
+        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public static function getAssGenSecVote()
+    {
+        $db = DBConnection::getInstance();
+        self::$conn = $db->getConnection();
+
+        $query = 'SELECT candidates.name, COUNT(votes.asst_gen_sec_candidate_id) as vote_count
+            FROM ' . self::$table . '
+            RIGHT JOIN candidates ON votes.asst_gen_sec_candidate_id = candidates.id
+            WHERE candidates.position = "Assistant General Secretary"
+            GROUP BY name
+            ORDER BY COUNT(votes.asst_gen_sec_candidate_id ) DESC
+        ';
+
+        $stmt = self::$conn->prepare($query);
+        $execute = $stmt->execute();
+
+        if (!$execute) {
+            return $execute;
+        }
+        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public static function getTreasurerVote()
+    {
+        $db = DBConnection::getInstance();
+        self::$conn = $db->getConnection();
+
+        $query = 'SELECT candidates.name, COUNT(votes.treasurer_candidate_id) as vote_count
+            FROM ' . self::$table . '
+            RIGHT JOIN candidates ON votes.treasurer_candidate_id = candidates.id
+            WHERE position = "Treasurer"
+            GROUP BY name
+            ORDER BY COUNT(votes.treasurer_candidate_id ) DESC
+        ';
+
+        $stmt = self::$conn->prepare($query);
+        $execute = $stmt->execute();
+
+        if (!$execute) {
+            return $execute;
+        }
+        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public static function getFinSecVote()
+    {
+        $db = DBConnection::getInstance();
+        self::$conn = $db->getConnection();
+
+        $query = 'SELECT candidates.name, COUNT(votes.fin_sec_candidate_id) as vote_count
+            FROM ' . self::$table . '
+            RIGHT JOIN candidates ON votes.fin_sec_candidate_id = candidates.id
+            WHERE position = "Financial Secretary"
+            GROUP BY name
+            ORDER BY COUNT(votes.fin_sec_candidate_id ) DESC
+        ';
+
+        $stmt = self::$conn->prepare($query);
+        $execute = $stmt->execute();
+
+        if (!$execute) {
+            return $execute;
+        }
+        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public static function getAuditorVote()
+    {
+        $db = DBConnection::getInstance();
+        self::$conn = $db->getConnection();
+
+        $query = 'SELECT candidates.name, COUNT(votes.auditor_candidate_id) as vote_count
+            FROM ' . self::$table . '
+            RIGHT JOIN candidates ON votes.auditor_candidate_id = candidates.id
+            WHERE position = "Auditor"
+            GROUP BY name
+            ORDER BY COUNT(votes.auditor_candidate_id ) DESC
+        ';
+
+        $stmt = self::$conn->prepare($query);
+        $execute = $stmt->execute();
+
+        if (!$execute) {
+            return $execute;
+        }
+        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public static function getSocSecVote()
+    {
+        $db = DBConnection::getInstance();
+        self::$conn = $db->getConnection();
+
+        $query = 'SELECT candidates.name, COUNT(votes.soc_sec_candidate_id) as vote_count
+            FROM ' . self::$table . '
+            RIGHT JOIN candidates ON votes.soc_sec_candidate_id = candidates.id
+            WHERE position = "Social Secretary"
+            GROUP BY name
+            ORDER BY COUNT(votes.soc_sec_candidate_id ) DESC
+        ';
+
+        $stmt = self::$conn->prepare($query);
+        $execute = $stmt->execute();
+
+        if (!$execute) {
+            return $execute;
+        }
+        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public static function getMedPubSecVote()
+    {
+        $db = DBConnection::getInstance();
+        self::$conn = $db->getConnection();
+
+        $query = 'SELECT candidates.name, COUNT(votes.med_pub_candidate_id) as vote_count
+            FROM ' . self::$table . '
+            RIGHT JOIN candidates ON votes.med_pub_candidate_id = candidates.id
+            WHERE position = "Media & Publicity Secretary"
+            GROUP BY name
+            ORDER BY COUNT(votes.med_pub_candidate_id ) DESC
+        ';
+
+        $stmt = self::$conn->prepare($query);
+        $execute = $stmt->execute();
+
+        if (!$execute) {
+            return $execute;
+        }
+        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $result;
     }
 
     // Clean data function
-    public function clean_data($data){
+    public static function clean_data($data)
+    {
         return htmlspecialchars(strip_tags(trim($data)));
     }
 }

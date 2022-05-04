@@ -14,12 +14,12 @@ class SignInController
     // Show the login page
     public function index(RouteCollection $routes)
     {
+        $request = Request::createFromGlobals();
         $this->session = new Session();
         $loggedIn = $this->session->get('loggedIn', null);
         if (!is_null($loggedIn)) {
-            header('location: /gascosa/vote');
+            header('location: /' . URL_SUBFOLDER . '/vote');
         }
-
         require_once APP_ROOT . '/views/index.php';
     }
 
@@ -28,7 +28,7 @@ class SignInController
     {
         $request = Request::createFromGlobals();
         if ($request->getMethod() != 'POST') {
-            header('location: /gascosa/');
+            header('location: /' . URL_SUBFOLDER);
         }
 
         $email = $request->get('email');
@@ -40,8 +40,9 @@ class SignInController
             $this->session = new Session();
             $this->session->set('loggedIn', $voter->id);
             $this->session->set('email', $voter->email);
-            header('location: /gascosa/vote');
+            header('location: /' . URL_SUBFOLDER . '/vote');
         }
+        header('location: /' . URL_SUBFOLDER . '/?status=error');
     }
 
     // Logout action
@@ -49,6 +50,6 @@ class SignInController
     {
         $this->session = new Session();
         $this->session->clear();
-        header('location: /gascosa/');
+        header('location: /' . URL_SUBFOLDER);
     }
 }

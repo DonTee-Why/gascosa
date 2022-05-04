@@ -1,12 +1,12 @@
 <?php
 
 //Site Name
-define('SITE_NAME', 'gascosa');
+define('SITE_NAME', 'E-VOTE');
 
 //App Root
 define('APP_ROOT', dirname(dirname(__FILE__)));
 define('URL_ROOT', '/');
-define('URL_SUBFOLODER', 'gascosa');
+define('URL_SUBFOLDER', 'gascosa');
 
 //DB Params
 define('DB_HOST', '127.0.0.1');
